@@ -29,5 +29,5 @@ SYSCALL(getpid)
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
-SYSCALL(mycall)
-SYSCALL(waitpid)
+SYSCALL(hello) //new for lab1
+SYSCALL(waitpid) //new for lab1
