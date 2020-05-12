@@ -25,6 +25,7 @@ int sleep(int);
 int uptime(void);
 int hello(void); //new for lab1
 int waitpid(int pid, int *status, int options); //new for lab1
+int set_prior(int prior_lvl); //new for lab2
 
 // ulib.c
 int stat(const char*, struct stat*);

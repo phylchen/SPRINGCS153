@@ -31,3 +31,4 @@ SYSCALL(sleep)
 SYSCALL(uptime)
 SYSCALL(hello) //new for lab1
 SYSCALL(waitpid) //new for lab1
+SYSCALL(set_prior) //new for lab2

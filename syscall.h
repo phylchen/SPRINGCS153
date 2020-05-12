@@ -22,3 +22,4 @@
 #define SYS_close  21
 #define SYS_hello 22 //new for lab1
 #define SYS_waitpid 23 //new for lab1
+#define SYS_set_prior 24 //new for lab2

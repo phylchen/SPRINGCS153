@@ -122,6 +122,7 @@ void            wakeup(void*);
 void            yield(void);
 void            hello(void); //new for lab1
 int             waitpid(int pid, int *status, int options); //new for lab1
+int             set_prior(int prior_lvl); //new for lab2
 
 // swtch.S
 void            swtch(struct context**, struct context*);
