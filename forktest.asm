@@ -57,7 +57,7 @@ main(void)
 {
   56:	83 ec 14             	sub    $0x14,%esp
   printf(1, "fork test\n");
-  59:	c7 44 24 04 24 04 00 	movl   $0x424,0x4(%esp)
+  59:	c7 44 24 04 2c 04 00 	movl   $0x42c,0x4(%esp)
   60:	00 
   61:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
   68:	e8 b3 ff ff ff       	call   20 <printf>
@@ -94,7 +94,7 @@ main(void)
   b9:	83 f8 ff             	cmp    $0xffffffff,%eax
   bc:	75 6a                	jne    128 <forktest+0xd8>
   printf(1, "fork test OK\n");
-  be:	c7 44 24 04 56 04 00 	movl   $0x456,0x4(%esp)
+  be:	c7 44 24 04 5e 04 00 	movl   $0x45e,0x4(%esp)
   c5:	00 
   c6:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
   cd:	e8 4e ff ff ff       	call   20 <printf>
@@ -104,9 +104,9 @@ main(void)
   d6:	5d                   	pop    %ebp
   d7:	c3                   	ret    
   write(fd, s, strlen(s));
-  d8:	c7 04 24 64 04 00 00 	movl   $0x464,(%esp)
+  d8:	c7 04 24 6c 04 00 00 	movl   $0x46c,(%esp)
   df:	e8 ec 00 00 00       	call   1d0 <strlen>
-  e4:	c7 44 24 04 64 04 00 	movl   $0x464,0x4(%esp)
+  e4:	c7 44 24 04 6c 04 00 	movl   $0x46c,0x4(%esp)
   eb:	00 
   ec:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
   f3:	89 44 24 08          	mov    %eax,0x8(%esp)
@@ -115,7 +115,7 @@ main(void)
   fc:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
  103:	e8 6a 02 00 00       	call   372 <exit>
       printf(1, "wait stopped early\n");
- 108:	c7 44 24 04 2f 04 00 	movl   $0x42f,0x4(%esp)
+ 108:	c7 44 24 04 37 04 00 	movl   $0x437,0x4(%esp)
  10f:	00 
  110:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
  117:	e8 04 ff ff ff       	call   20 <printf>
@@ -123,7 +123,7 @@ main(void)
  11c:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
  123:	e8 4a 02 00 00       	call   372 <exit>
     printf(1, "wait got too many\n");
- 128:	c7 44 24 04 43 04 00 	movl   $0x443,0x4(%esp)
+ 128:	c7 44 24 04 4b 04 00 	movl   $0x44b,0x4(%esp)
  12f:	00 
  130:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
  137:	e8 e4 fe ff ff       	call   20 <printf>
@@ -659,3 +659,9 @@ SYSCALL(waitpid) //new for lab1
  41a:	b8 17 00 00 00       	mov    $0x17,%eax
  41f:	cd 40                	int    $0x40
  421:	c3                   	ret    
+
+00000422 <set_prior>:
+SYSCALL(set_prior) //new for lab2
+ 422:	b8 18 00 00 00       	mov    $0x18,%eax
+ 427:	cd 40                	int    $0x40
+ 429:	c3                   	ret    

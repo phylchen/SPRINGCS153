@@ -12,11 +12,11 @@
 00000000 .debug_loc
 00000000 .debug_ranges
 00000000 usertests.c
-000064c0 args.1724
+000064c0 args.1726
 00000000 ulib.c
 00000000 printf.c
 00004020 printint
-00005bc7 digits.1360
+00005bc7 digits.1362
 00000000 umalloc.c
 00006540 freep
 00006544 base
@@ -87,6 +87,7 @@
 00002940 bigfile
 000064bc _edata
 0000ac84 _end
+00004012 set_prior
 00001540 unlinkread
 00003fc2 link
 00003f62 exit

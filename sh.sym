@@ -12,11 +12,11 @@
 00000000 .debug_loc
 00000000 .debug_ranges
 00000000 sh.c
-00001960 buf.1398
+00001960 buf.1400
 00000000 ulib.c
 00000000 printf.c
 00000ec0 printint
-000013b7 digits.1360
+000013b7 digits.1362
 00000000 umalloc.c
 000019c4 freep
 000019c8 base
@@ -69,6 +69,7 @@
 00000d50 stat
 00001956 _edata
 000019d0 _end
+00000eb2 set_prior
 00000e62 link
 00000e02 exit
 00000da0 atoi

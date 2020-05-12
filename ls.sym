@@ -11,11 +11,11 @@
 00000000 .debug_loc
 00000000 .debug_ranges
 00000000 ls.c
-00000da8 buf.1371
+00000da8 buf.1373
 00000000 ulib.c
 00000000 printf.c
 00000670 printint
-00000ac7 digits.1360
+00000ac7 digits.1362
 00000000 umalloc.c
 00000db8 freep
 00000dbc base
@@ -50,6 +50,7 @@
 00000500 stat
 00000da8 _edata
 00000dc4 _end
+00000662 set_prior
 00000612 link
 00000100 ls
 000005b2 exit

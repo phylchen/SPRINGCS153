@@ -380,6 +380,9 @@ void
 scheduler(void) //modify to priority scheduler for lab2
 {
   struct proc *p;
+
+	struct proc *p1; //adding new proccess to track (lab2)
+
   struct cpu *c = mycpu();
   c->proc = 0;
   
@@ -387,11 +390,27 @@ scheduler(void) //modify to priority scheduler for lab2
     // Enable interrupts on this processor.
     sti();
 
+	struct proc *high_prior = 0; //tracks which process has higher priority (lab2)
+
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
+/*----------------------- NEW SECTION ADDED FOR LAB2 ---------------------------*/
+	high_prior = p; //set p as the highest priority process (lab2)
+
+     for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){ //iterate through other tracked process (lab2)
+      	if(p1->state != RUNNABLE)
+        	continue;
+
+     	if(high_prior->prior_val > p1->prior_val) { //if p has a higher priority value than p1, then it has a lower priority (higher priority value = low actually priority) (lab2)
+		high_prior = p1; //switch high_prior to p1
+     	}
+      }
+      
+	p = high_prior; //reset p to high_prior after looping through p1
+/*----------------------- NEW SECTION END --------------------------------------*/
 
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
@@ -432,7 +451,7 @@ set_prior(int prior_lvl) { // sets process priority (lab2)
 	else {
 		p->prior_val = prior_lvl; //set prior_val from proc.h to new prior_lvl inputed
 	}
-	return prior_val;
+	return prior_lvl;
 }
 
 void

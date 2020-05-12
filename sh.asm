@@ -1934,10 +1934,12 @@ SYSCALL(waitpid) //new for lab1
      eaa:	b8 17 00 00 00       	mov    $0x17,%eax
      eaf:	cd 40                	int    $0x40
      eb1:	c3                   	ret    
-     eb2:	66 90                	xchg   %ax,%ax
-     eb4:	66 90                	xchg   %ax,%ax
-     eb6:	66 90                	xchg   %ax,%ax
-     eb8:	66 90                	xchg   %ax,%ax
+
+00000eb2 <set_prior>:
+SYSCALL(set_prior) //new for lab2
+     eb2:	b8 18 00 00 00       	mov    $0x18,%eax
+     eb7:	cd 40                	int    $0x40
+     eb9:	c3                   	ret    
      eba:	66 90                	xchg   %ax,%ax
      ebc:	66 90                	xchg   %ax,%ax
      ebe:	66 90                	xchg   %ax,%ax

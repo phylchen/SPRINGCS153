@@ -14,7 +14,7 @@
 00000000 ulib.c
 00000000 printf.c
 00000350 printint
-00000771 digits.1360
+00000771 digits.1362
 00000000 umalloc.c
 000009ec freep
 000009f0 base
@@ -48,6 +48,7 @@
 000001e0 stat
 000009ec _edata
 000009f8 _end
+00000342 set_prior
 000002f2 link
 00000292 exit
 00000230 atoi
