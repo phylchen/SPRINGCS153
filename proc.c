@@ -375,8 +375,9 @@ waitpid(int pid, int *status, int options)
 //  - swtch to start running that process
 //  - eventually that process transfers control
 //      via swtch back to the scheduler.
+
 void
-scheduler(void)
+scheduler(void) //modify to priority scheduler for lab2
 {
   struct proc *p;
   struct cpu *c = mycpu();
@@ -418,6 +419,22 @@ scheduler(void)
 // be proc->intena and proc->ncli, but that would
 // break in the few places where a lock is held but
 // there's no process.
+
+int
+set_prior(int prior_lvl) { // sets process priority (lab2)
+	struct proc* p = myproc();
+	if(prior_lvl < 0) {
+		p->prior_lvl = 0;
+	} 
+	else if(prior_lvl > 31) { //priority levels should range from 1 to 31
+		p->prior_lvl = 31;
+	}
+	else {
+		p->prior_lvl = prior_val;
+	}
+	return prior_lvl;
+}
+
 void
 sched(void)
 {
