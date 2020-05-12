@@ -424,15 +424,15 @@ int
 set_prior(int prior_lvl) { // sets process priority (lab2)
 	struct proc* p = myproc();
 	if(prior_lvl < 0) {
-		p->prior_lvl = 0;
+		p->prior_val = 0;
 	} 
 	else if(prior_lvl > 31) { //priority levels should range from 1 to 31
-		p->prior_lvl = 31;
+		p->prior_val = 31;
 	}
 	else {
-		p->prior_lvl = prior_val;
+		p->prior_val = prior_lvl; //set prior_val from proc.h to new prior_lvl inputed
 	}
-	return prior_lvl;
+	return prior_val;
 }
 
 void
