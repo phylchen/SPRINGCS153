@@ -183,6 +183,9 @@ UPROGS=\
 	_zombie\
 	_test\
 	_waitpidTest\
+	_prog1\
+	_prog2\
+	_prog3\
  
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

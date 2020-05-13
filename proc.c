@@ -89,6 +89,8 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
 
+  p->prior_val = 15; //createsa default priority value if not specified (lab2)
+
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -409,7 +411,7 @@ scheduler(void) //modify to priority scheduler for lab2
      	}
       }
       
-	p = high_prior; //reset p to high_prior after looping through p1
+	p = high_prior; //set p to high_prior after looping through p1
 /*----------------------- NEW SECTION END --------------------------------------*/
 
       // Switch to chosen process.  It is the process's job
@@ -439,20 +441,27 @@ scheduler(void) //modify to priority scheduler for lab2
 // break in the few places where a lock is held but
 // there's no process.
 
+/*--------------------------New syscall for lab2-----------------------------------*/
 int
 set_prior(int prior_lvl) { // sets process priority (lab2)
+
 	struct proc* p = myproc();
-	if(prior_lvl < 0) {
-		p->prior_val = 0;
-	} 
-	else if(prior_lvl > 31) { //priority levels should range from 1 to 31
-		p->prior_val = 31;
-	}
-	else {
-		p->prior_val = prior_lvl; //set prior_val from proc.h to new prior_lvl inputed
+	for(p = ptable.proc; p< &ptable.proc[NPROC]; p++) {
+
+		if(prior_lvl < 0) {
+			p->prior_val = 0;
+		}
+		else if(prior_lvl > 31) { //priority levels should range from 1 to 31
+			p->prior_val = 31;
+		}
+		else {
+			p->prior_val = prior_lvl; //set prior_val from proc.h to new prior_lvl inputed
+			break;
+		}
 	}
 	return prior_lvl;
 }
+/*-------------------------New syscall end----------------------------------------*/
 
 void
 sched(void)
