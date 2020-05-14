@@ -89,7 +89,7 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
 
-  p->prior_val = 15; //createsa default priority value if not specified (lab2)
+  //p->prior_val = 15; //createsa default priority value if not specified (lab2)
 
   release(&ptable.lock);
 
@@ -113,7 +113,13 @@ found:
   p->context = (struct context*)sp;
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
-
+/*------------------New section for time (lab2)--------------------------*/
+	acquire(&ptable.lock);
+	p->start_time = ticks;
+	release(&ptable.lock);
+	cprintf("start time: %d\n", p->start_time);
+	p->end_time = 0;
+/*-------------------------end-------------------------------------------*/
   return p;
 }
 
@@ -267,6 +273,15 @@ exit(int status) //changed from exit(void) -> exit(int status)
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
+
+/*-----------------------new section for time (lab2)-----------------------*/
+	curproc->end_time = ticks;
+	cprintf("end time: %d \n", curproc->end_time);
+
+	int turn_time = curproc->end_time - curproc->start_time;
+
+	cprintf("turnaround time: %d \n", turn_time);
+/*-----------------------------end-------------------------------------------*/
   sched();
   panic("zombie exit");
 }
@@ -402,15 +417,16 @@ scheduler(void) //modify to priority scheduler for lab2
 /*----------------------- NEW SECTION ADDED FOR LAB2 ---------------------------*/
 	high_prior = p; //set p as the highest priority process (lab2)
 
-     for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){ //iterate through other tracked process (lab2)
-      	if(p1->state != RUNNABLE)
+        for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){ //iterate through other tracked process (lab2)
+      	   if(p1->state != RUNNABLE)
         	continue;
 
-     	if(high_prior->prior_val > p1->prior_val) { //if p has a higher priority value than p1, then it has a lower priority (higher priority value = low actually priority) (lab2)
+     	   if(high_prior->prior_val > p1->prior_val) { //if p has a higher priority value than p1, then it has a lower priority (higher priority value = low actually priority) (lab2)
 		high_prior = p1; //switch high_prior to p1
-     	}
-      }
-      
+     	   }
+         }
+         //if(p->state != RUNNABLE)
+           //continue;
 	p = high_prior; //set p to high_prior after looping through p1
 /*----------------------- NEW SECTION END --------------------------------------*/
 

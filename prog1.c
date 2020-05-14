@@ -4,7 +4,9 @@
 
 int main(int argc, char *argv[]) {
 
-	set_prior(0);
+	int priority = set_prior(0);
+	
+	printf(1, "Program 1 has priority %d \n", priority);
 
 	int i, k;
 	for(i = 0; i < 1000; i++) {
@@ -13,8 +15,10 @@ int main(int argc, char *argv[]) {
 			asm("nop");
 		}
 	
-	printf(1, "Program 1 finished loop %d\n",i);
+	//printf(1, "Program 1 finished loop %d\n",i);
 	}
 	printf(1, "Program 1 finished\n");
 	exit(0);
+
+	return 0;
 };
