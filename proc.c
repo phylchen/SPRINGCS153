@@ -197,6 +197,8 @@ fork(void)
     return -1;
   }
 
+	np->prior_val = curproc->prior_val;
+
   // Copy process state from proc.
   if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
     kfree(np->kstack);
@@ -407,17 +409,19 @@ scheduler(void) //modify to priority scheduler for lab2
     // Enable interrupts on this processor.
     sti();
 
-	struct proc *high_prior = 0; //tracks which process has higher priority (lab2)
+	struct proc *high_prior; //tracks which process has higher priority (lab2)
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
+
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
+
 /*----------------------- NEW SECTION ADDED FOR LAB2 ---------------------------*/
 	high_prior = p; //set p as the highest priority process (lab2)
 
-        for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){ //iterate through other tracked process (lab2)
+        for(p1 = p + 1; p1 < &ptable.proc[NPROC]; p1++){ //iterate through other tracked process (lab2)
       	   if(p1->state != RUNNABLE)
         	continue;
 
@@ -425,8 +429,6 @@ scheduler(void) //modify to priority scheduler for lab2
 		high_prior = p1; //switch high_prior to p1
      	   }
          }
-         //if(p->state != RUNNABLE)
-           //continue;
 	p = high_prior; //set p to high_prior after looping through p1
 /*----------------------- NEW SECTION END --------------------------------------*/
 
@@ -443,6 +445,19 @@ scheduler(void) //modify to priority scheduler for lab2
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       c->proc = 0;
+
+/*----------------------------SECTION FOR AGING (LAB2)-------------------------*/
+	for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+		if(p1->state == RUNNABLE){
+			if(p1 == p && p1->prior_val < 31){
+				p1->prior_val = p1->prior_val + 1;
+			}
+			else if(p1 != p && p1->prior_val > 0){
+				p1->prior_val = p1->prior_val - 1;
+			}
+		}
+    	}
+/*-------------------------------end------------------------------------------*/
     }
     release(&ptable.lock);
 
@@ -461,8 +476,9 @@ scheduler(void) //modify to priority scheduler for lab2
 int
 set_prior(int prior_lvl) { // sets process priority (lab2)
 
-	struct proc* p = myproc();
-	for(p = ptable.proc; p< &ptable.proc[NPROC]; p++) {
+	struct proc *p = myproc();
+	//for(p = ptable.proc; p< &ptable.proc[NPROC]; p++) {
+	acquire(&ptable.lock);
 
 		if(prior_lvl < 0) {
 			p->prior_val = 0;
@@ -472,9 +488,9 @@ set_prior(int prior_lvl) { // sets process priority (lab2)
 		}
 		else {
 			p->prior_val = prior_lvl; //set prior_val from proc.h to new prior_lvl inputed
-			break;
 		}
-	}
+	release(&ptable.lock);
+	//}
 	return prior_lvl;
 }
 /*-------------------------New syscall end----------------------------------------*/
