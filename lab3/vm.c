@@ -313,7 +313,7 @@ clearpteu(pde_t *pgdir, char *uva)
 // Given a parent process's page table, create a copy
 // of it for a child.
 pde_t*
-copyuvm(pde_t *pgdir, uint sz)
+copyuvm(pde_t *pgdir, uint sz, uint sb)
 {
   pde_t *d;
   pte_t *pte;
@@ -336,19 +336,19 @@ copyuvm(pde_t *pgdir, uint sz)
       goto bad;
   }
 //modification
-  for(j = sTop - PGSIZE + 1; sb > 0; sb--; j-=PGSIZE){
-    if((pte = walkpgdir(pgdir, (void *)j, 0))==0)
-      panic("copyuvm: pte should exist");
-    if(!(*pte & PTE_P))
-      panic("copyuvm: page not present");
-    pa = PTE_ADDR(*pte);
-    flags = PTE_FLAGES(*pte);
-    if((mem = kalloc()) == 0)
-      goto bad;
-    memmove(mem, (char*)P2V(pa), PGSIZE;
-    if(mappages(d,(void*)j, PGSIZE, V2P(mem))< 0)
-      goto bad;
-}
+  for(j = sTop - PGSIZE +1; sb > 0; sb--; j-= PGSIZE){
+  	if((pte = walkpgdir(pgdir, (void *) j, 0)) == 0)
+	  panic("copyuvm: pte should exist");
+ 	if(!(*pte & PTE_P))
+	  panic("copyuvm: page not present");
+  	pa = PTE_ADDR(*pte);
+	flags = PTE_FLAGS(*pte);
+	if((mem = kalloc()) == 0)
+	  goto bad;
+  	memmove(mem, (char*)P2V(pa), PGSIZE);
+	if(mappages(d, (void*)j, PGSIZE, V2P(mem), flags) < 0)
+	  goto bad;
+  }
   return d;
 
 bad:
